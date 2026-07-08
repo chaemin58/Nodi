@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Nodi — 약속 장소, 같이 정하기",
   description:
     "친구들과 약속 장소를 함께 정하는 보드. 장소를 모아 투표로 정하고 카톡으로 공유하세요.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
