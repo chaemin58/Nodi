@@ -1,9 +1,10 @@
 import { BADGE, BadgeKind } from "@/tokens/badges";
 
-type BadgeProp =
-  | { type: Exclude<BadgeKind, "dday">; daysLeft?: never }
-  | { type: "dday"; daysLeft: number };
 
+interface BadgeProp {
+  type: BadgeKind;
+  daysLeft?: number;
+}
 export function Badge({ type, daysLeft }: BadgeProp) {
   const { label, className } = BADGE[type];
 
