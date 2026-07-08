@@ -1,0 +1,24 @@
+.item {
+  position: relative;
+  transition: transform 0.25s ease;
+}
+
+/*
+ * 어떤 아바타에 호버하면, DOM상 그 "뒤(오른쪽)" 형제들을 --push 만큼 오른쪽으로 밀어낸다.
+ * 오른쪽 원이 위로 겹쳐 있으므로, 이렇게 밀어내야 호버한 프로필이 온전히 드러난다.
+ */
+.item:hover ~ .item {
+  transform: translateX(var(--push));
+}
+
+/* 호버한 원은 살짝 위로 올려 어떤 것에도 가려지지 않게 */
+.item:hover {
+  z-index: 1;
+}
+
+/* 접근성: 모션을 줄이는 사용자에게는 애니메이션 없이 즉시 이동 */
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}
