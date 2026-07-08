@@ -192,6 +192,8 @@ create policy "meetups_delete" on meetups for delete
   using (created_by = auth.uid() or is_group_owner(group_id));
 
 -- places: 볼 수 있는 약속이면 조회 / 모임 멤버만 추가(본인 이름으로) / 추가한 본인 or 모임주인만 수정·삭제
+-- 참고: 코스 확정(is_confirmed·course_order 수정)도 이 update 정책을 따름.
+--       "확정은 주최자만" 을 DB 레벨로 엄격히 막으려면 별도 meetup_course 테이블로 분리(추후).
 create policy "places_select" on places for select using (can_view_meetup(meetup_id));
 create policy "places_insert" on places for insert
   with check (is_meetup_member(meetup_id) and added_by = auth.uid());
