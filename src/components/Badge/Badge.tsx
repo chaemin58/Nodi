@@ -1,6 +1,5 @@
 import { BADGE, BadgeKind } from "@/tokens/badges";
 
-
 interface BadgeProp {
   type: BadgeKind;
   daysLeft?: number;
