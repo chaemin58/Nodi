@@ -8,10 +8,7 @@ import { requireUserId } from "./auth";
 export type PlaceRow = Tables<"places">;
 
 /** 한 약속의 후보 장소 목록 (담은 순서대로) */
-export async function getPlaces(
-  supabase: DbClient,
-  meetupId: string
-): Promise<PlaceRow[]> {
+export async function getPlaces(supabase: DbClient, meetupId: string): Promise<PlaceRow[]> {
   const { data, error } = await supabase
     .from("places")
     .select("*")
@@ -24,7 +21,7 @@ export async function getPlaces(
 /** 확정된 코스(is_confirmed) 만, 순서대로 */
 export async function getConfirmedCourse(
   supabase: DbClient,
-  meetupId: string
+  meetupId: string,
 ): Promise<PlaceRow[]> {
   const { data, error } = await supabase
     .from("places")
@@ -47,7 +44,7 @@ export async function addPlace(
     lat?: number | null;
     lng?: number | null;
     naverPlaceId?: string | null;
-  }
+  },
 ): Promise<PlaceRow> {
   const userId = await requireUserId(supabase);
   const row: InsertDto<"places"> = {
@@ -60,20 +57,13 @@ export async function addPlace(
     naver_place_id: input.naverPlaceId ?? null,
     added_by: userId,
   };
-  const { data, error } = await supabase
-    .from("places")
-    .insert(row)
-    .select("*")
-    .single();
+  const { data, error } = await supabase.from("places").insert(row).select("*").single();
   if (error) throw error;
   return data;
 }
 
 /** 후보 장소 삭제 (담은 본인 or 모임 주인 — RLS가 강제) */
-export async function deletePlace(
-  supabase: DbClient,
-  placeId: string
-): Promise<void> {
+export async function deletePlace(supabase: DbClient, placeId: string): Promise<void> {
   const { error } = await supabase.from("places").delete().eq("id", placeId);
   if (error) throw error;
 }
@@ -89,7 +79,7 @@ export async function deletePlace(
 export async function confirmCourse(
   supabase: DbClient,
   meetupId: string,
-  orderedPlaceIds: string[]
+  orderedPlaceIds: string[],
 ): Promise<void> {
   // 1) 이 약속의 모든 장소를 코스에서 초기화
   const { error: resetError } = await supabase
@@ -110,10 +100,7 @@ export async function confirmCourse(
 }
 
 /** 코스 확정 해제 (다시 정하는 중으로) */
-export async function clearCourse(
-  supabase: DbClient,
-  meetupId: string
-): Promise<void> {
+export async function clearCourse(supabase: DbClient, meetupId: string): Promise<void> {
   const { error } = await supabase
     .from("places")
     .update({ is_confirmed: false, course_order: null })

@@ -8,10 +8,7 @@ import { requireUserId } from "./auth";
 export type MeetupRow = Tables<"meetups">;
 
 /** 한 모임의 약속 목록 (최신순) */
-export async function getMeetupsByGroup(
-  supabase: DbClient,
-  groupId: string
-): Promise<MeetupRow[]> {
+export async function getMeetupsByGroup(supabase: DbClient, groupId: string): Promise<MeetupRow[]> {
   const { data, error } = await supabase
     .from("meetups")
     .select("*")
@@ -22,10 +19,7 @@ export async function getMeetupsByGroup(
 }
 
 /** 약속 하나 (id 로) */
-export async function getMeetup(
-  supabase: DbClient,
-  meetupId: string
-): Promise<MeetupRow | null> {
+export async function getMeetup(supabase: DbClient, meetupId: string): Promise<MeetupRow | null> {
   const { data, error } = await supabase
     .from("meetups")
     .select("*")
@@ -38,7 +32,7 @@ export async function getMeetup(
 /** 공유 링크(share_token)로 약속 조회 — 비회원 공유 뷰용 */
 export async function getMeetupByShareToken(
   supabase: DbClient,
-  shareToken: string
+  shareToken: string,
 ): Promise<MeetupRow | null> {
   const { data, error } = await supabase
     .from("meetups")
@@ -52,7 +46,7 @@ export async function getMeetupByShareToken(
 /** 약속 생성 (모임 멤버만 — created_by=본인) */
 export async function createMeetup(
   supabase: DbClient,
-  input: { groupId: string; title: string; meetDate?: string | null }
+  input: { groupId: string; title: string; meetDate?: string | null },
 ): Promise<MeetupRow> {
   const userId = await requireUserId(supabase);
   const { data, error } = await supabase
@@ -73,12 +67,9 @@ export async function createMeetup(
 export async function setMeetupStatus(
   supabase: DbClient,
   meetupId: string,
-  status: MeetupStatus
+  status: MeetupStatus,
 ): Promise<void> {
-  const { error } = await supabase
-    .from("meetups")
-    .update({ status })
-    .eq("id", meetupId);
+  const { error } = await supabase.from("meetups").update({ status }).eq("id", meetupId);
   if (error) throw error;
 }
 
@@ -86,7 +77,7 @@ export async function setMeetupStatus(
 export async function setMeetupShared(
   supabase: DbClient,
   meetupId: string,
-  isShared: boolean
+  isShared: boolean,
 ): Promise<void> {
   const { error } = await supabase
     .from("meetups")
@@ -96,10 +87,7 @@ export async function setMeetupShared(
 }
 
 /** 약속 삭제 (만든 본인 or 모임 주인 — RLS가 강제) */
-export async function deleteMeetup(
-  supabase: DbClient,
-  meetupId: string
-): Promise<void> {
+export async function deleteMeetup(supabase: DbClient, meetupId: string): Promise<void> {
   const { error } = await supabase.from("meetups").delete().eq("id", meetupId);
   if (error) throw error;
 }
