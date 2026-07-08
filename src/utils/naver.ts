@@ -48,17 +48,14 @@ function toCoord(value: string): number | null {
  * @param query 검색어 (예: "성수동 카페")
  * @param display 결과 개수 (네이버 제한: 최대 5)
  */
-export async function searchPlaces(
-  query: string,
-  display = 5
-): Promise<SearchedPlace[]> {
+export async function searchPlaces(query: string, display = 5): Promise<SearchedPlace[]> {
   const clientId = process.env.NAVER_SEARCH_CLIENT_ID;
   const clientSecret = process.env.NAVER_SEARCH_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
     throw new Error(
       "[네이버 검색] 환경변수가 없습니다. .env.local 에 " +
-        "NAVER_SEARCH_CLIENT_ID / NAVER_SEARCH_CLIENT_SECRET 를 넣어주세요."
+        "NAVER_SEARCH_CLIENT_ID / NAVER_SEARCH_CLIENT_SECRET 를 넣어주세요.",
     );
   }
 

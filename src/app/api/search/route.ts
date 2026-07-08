@@ -8,10 +8,7 @@ export async function GET(request: NextRequest) {
 
   // 검색어가 없으면 400 (잘못된 요청)
   if (!query) {
-    return Response.json(
-      { error: "query 파라미터가 필요합니다." },
-      { status: 400 }
-    );
+    return Response.json({ error: "query 파라미터가 필요합니다." }, { status: 400 });
   }
 
   try {
@@ -21,9 +18,6 @@ export async function GET(request: NextRequest) {
     // 키 누락 등 서버 설정 문제 → 500, 네이버 쪽 문제 → 502 로 구분
     const message = err instanceof Error ? err.message : "알 수 없는 오류";
     const isConfig = message.includes("환경변수");
-    return Response.json(
-      { error: message },
-      { status: isConfig ? 500 : 502 }
-    );
+    return Response.json({ error: message }, { status: isConfig ? 500 : 502 });
   }
 }

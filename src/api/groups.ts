@@ -18,15 +18,8 @@ export async function getMyGroups(supabase: DbClient): Promise<GroupRow[]> {
 }
 
 /** 모임 하나 */
-export async function getGroup(
-  supabase: DbClient,
-  groupId: string
-): Promise<GroupRow | null> {
-  const { data, error } = await supabase
-    .from("groups")
-    .select("*")
-    .eq("id", groupId)
-    .maybeSingle();
+export async function getGroup(supabase: DbClient, groupId: string): Promise<GroupRow | null> {
+  const { data, error } = await supabase.from("groups").select("*").eq("id", groupId).maybeSingle();
   if (error) throw error;
   return data;
 }
@@ -37,7 +30,7 @@ export async function getGroup(
  */
 export async function createGroup(
   supabase: DbClient,
-  input: { name: string; type?: GroupType }
+  input: { name: string; type?: GroupType },
 ): Promise<GroupRow> {
   const userId = await requireUserId(supabase);
 
@@ -60,20 +53,14 @@ export async function createGroup(
 export async function renameGroup(
   supabase: DbClient,
   groupId: string,
-  name: string
+  name: string,
 ): Promise<void> {
-  const { error } = await supabase
-    .from("groups")
-    .update({ name })
-    .eq("id", groupId);
+  const { error } = await supabase.from("groups").update({ name }).eq("id", groupId);
   if (error) throw error;
 }
 
 /** 모임 삭제 (주인만 — RLS가 강제) */
-export async function deleteGroup(
-  supabase: DbClient,
-  groupId: string
-): Promise<void> {
+export async function deleteGroup(supabase: DbClient, groupId: string): Promise<void> {
   const { error } = await supabase.from("groups").delete().eq("id", groupId);
   if (error) throw error;
 }
@@ -90,10 +77,7 @@ export async function getGroupMembers(supabase: DbClient, groupId: string) {
 }
 
 /** 내가 이 모임에 참여 (초대 링크 수락 등) */
-export async function joinGroup(
-  supabase: DbClient,
-  groupId: string
-): Promise<void> {
+export async function joinGroup(supabase: DbClient, groupId: string): Promise<void> {
   const userId = await requireUserId(supabase);
   const { error } = await supabase
     .from("group_members")
@@ -102,10 +86,7 @@ export async function joinGroup(
 }
 
 /** 모임 나가기 (내 멤버십 삭제) */
-export async function leaveGroup(
-  supabase: DbClient,
-  groupId: string
-): Promise<void> {
+export async function leaveGroup(supabase: DbClient, groupId: string): Promise<void> {
   const userId = await requireUserId(supabase);
   const { error } = await supabase
     .from("group_members")

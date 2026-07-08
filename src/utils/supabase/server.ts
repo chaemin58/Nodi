@@ -16,9 +16,7 @@ export async function createClient() {
       },
       setAll(cookiesToSet) {
         try {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
+          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
         } catch {
           // 서버 컴포넌트에서 호출된 경우 set이 막힘 — proxy(세션 갱신)가 처리하므로 무시 가능.
         }
