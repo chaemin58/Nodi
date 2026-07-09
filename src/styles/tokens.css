@@ -70,4 +70,8 @@
   --color-kakao-button: #f7e600;
   --color-kakao-button-hover: #ebd800;
   --color-kakao-button-active: #d4c200;
+
+  /*인풋*/
+  --color-error: var(--color-red-500);
+  --color-defualt: var(--color-gray-200);
 }

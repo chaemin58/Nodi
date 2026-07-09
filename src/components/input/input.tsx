@@ -29,12 +29,12 @@ export default function Input({
       <div
         className={cn(
           "focus-within:border-text-primary flex h-[54px] items-center gap-2 rounded-2xl border px-4 has-[:disabled]:opacity-40",
-          isWarning ? "border-red-500" : "border-gray-200",
+          isWarning ? "border-error" : "border-defualt",
         )}
       >
         {prefix}
         <input
-          className="w-full bg-transparent text-gray-950 placeholder-gray-400 outline-none disabled:cursor-not-allowed"
+          className="w-full bg-transparent text-gray-950 placeholder-text-placeholder outline-none disabled:cursor-not-allowed"
           type={isPassword ? (showPassword ? "text" : "password") : type}
           {...props}
         />
@@ -55,7 +55,7 @@ export default function Input({
           suffix
         )}
       </div>
-      {isWarning && warningText && <p className="text-sm text-red-500">{warningText}</p>}
+      {isWarning && warningText && <p className="text-sm text-error">{warningText}</p>}
     </div>
   );
 }
