@@ -1,0 +1,31 @@
+name: PR Agent
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  pr_agent_job:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+      id-token: write # 권한 강화
+    name: Run PR Agent on PR
+    steps:
+      - name: PR Agent action
+        id: pr_agent
+        uses: Codium-ai/pr-agent@main
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 자동 리뷰 활성화
+          PR_AUTOMATED_REVIEW.on_pull_request: true
+          # 기술적 피드백 강화
+          PR_CODE_SUGGESTIONS.extra_instructions: |
+            한국어로 답변해줘.
+            1. 사용되지 않는 import 제거 및 코드 최적화.
+            2. Tailwind CSS 클래스 사용 시, 프로젝트에 정의되지 않은 값은 지양하고 디자인 토큰을 활용하도록 안내해줘.
+            3. 코드의 논리적 오류나 성능 이슈가 있다면 구체적인 수정 방향을 제시해줘.
+            4. 최대한 성능을 올릴 수 있는 방안도 제시해줘.
