@@ -23,6 +23,9 @@ jobs:
           config.fallback_models: '["gemini/gemini-2.5-flash"]'
           GOOGLE_AI_STUDIO.GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           github_action_config.auto_review: "true"
+          PR_DESCRIPTION.extra_instructions: |
+            모든 내용을 한국어로 작성해줘.
+            PR Type, Description, Walkthrough 등 모든 항목을 한국어로 작성해줘.
           PR_CODE_SUGGESTIONS.extra_instructions: |
             한국어로 답변해줘.
             1. 사용되지 않는 import 제거 및 코드 최적화.
