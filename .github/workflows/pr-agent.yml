@@ -21,7 +21,7 @@ jobs:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # 자동 리뷰 활성화
-          PR_AUTOMATED_REVIEW.on_pull_request: true
+          github_action_config.auto_review: "true"
           # 기술적 피드백 강화
           PR_CODE_SUGGESTIONS.extra_instructions: |
             한국어로 답변해줘.
