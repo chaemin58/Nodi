@@ -1,64 +1,11 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
-:root {
-  /* --- 브랜드 (plan.md) --- */
-  --brand: #1d9e75; /* 메인 딥그린 */
-  --brand-dark: #0f6e56; /* 진한 그린 — 글자/아이콘 */
-  --brand-light: #e1f5ee; /* 연한 그린 — 틴트 */
-
-  /* --- 표면/텍스트 --- */
-  --background: #f7f8f7;
-  --surface: #ffffff;
-  --foreground: #16211c;
-  --muted: #6b7770;
-  --border: #e7eae8;
-
-  /* --- 뱃지 (배경 / 글자) --- */
-  --badge-voting-bg: #faeeda; /* 정하는 중 (앰버) */
-  --badge-voting-fg: #854f0b;
-  --badge-confirmed-bg: #e1f5ee; /* 정해짐 / 새 모임 (초록) */
-  --badge-confirmed-fg: #0f6e56;
-  --badge-past-bg: #f1efe8; /* 다녀옴 (회색) */
-  --badge-past-fg: #5f5e5a;
-  --badge-soon-bg: #faece7; /* 슬슬 만날 때 (코럴) */
-  --badge-soon-fg: #993c1d;
-  --badge-dday-bg: #e6f1fb; /* D-3 (블루) */
-  --badge-dday-fg: #185fa5;
-  --badge-couple-bg: #fbeaf0; /* 커플 포인트 (핑크) */
-  --badge-couple-fg: #993556;
-}
-
-@theme inline {
-  --color-brand: var(--brand);
-  --color-brand-dark: var(--brand-dark);
-  --color-brand-light: var(--brand-light);
-
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
-
-  --color-badge-voting-bg: var(--badge-voting-bg);
-  --color-badge-voting-fg: var(--badge-voting-fg);
-  --color-badge-confirmed-bg: var(--badge-confirmed-bg);
-  --color-badge-confirmed-fg: var(--badge-confirmed-fg);
-  --color-badge-past-bg: var(--badge-past-bg);
-  --color-badge-past-fg: var(--badge-past-fg);
-  --color-badge-soon-bg: var(--badge-soon-bg);
-  --color-badge-soon-fg: var(--badge-soon-fg);
-  --color-badge-dday-bg: var(--badge-dday-bg);
-  --color-badge-dday-fg: var(--badge-dday-fg);
-  --color-badge-couple-bg: var(--badge-couple-bg);
-  --color-badge-couple-fg: var(--badge-couple-fg);
-
-  --font-sans:
-    "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
 }
