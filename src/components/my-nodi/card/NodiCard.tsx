@@ -10,10 +10,10 @@ interface NodiCardProps {
   meetingCount: number;
   members: AvatarGroupMember[];
   lastMeetingText?: string;
-  name:string;
-  url?:string;
-  option?:number;
-  bgColor?:string;
+  name: string;
+  url?: string;
+  option?: number;
+  bgColor?: string;
 }
 
 export function NodiCard({
@@ -26,16 +26,15 @@ export function NodiCard({
   name,
   url,
   option,
-  bgColor
+  bgColor,
 }: NodiCardProps) {
   return (
-    <div className="w-81 lg:w-100 cursor-pointer overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+    <div className="min-w-81 w-fit lg:min-w-100 cursor-pointer overflow-hidden border-border rounded-2xl border bg-surface shadow-sm h-full">
       {/* 커버 + 멤버 아바타 */}
       <div
         className="relative h-28 w-full"
         style={{ backgroundColor: bgColor ? `#${bgColor}` : undefined }}
-      >
-      </div>
+      ></div>
       <div className="px-3 -mt-4">
         <div className="inline-flex rounded-full bg-surface/40 p-1 backdrop-blur-sm">
           <AvatarGroup members={members} max={4} size={36} />
@@ -50,11 +49,10 @@ export function NodiCard({
           headCount={headCount}
           meetingCount={meetingCount}
         />
-        {(badgeType === 'voting' || badgeType === 'confirmed') && (
-          <StatusDisplay type={badgeType} title={name} options={option} url=
-          {url} />
+        {(badgeType === "voting" || badgeType === "confirmed") && (
+          <StatusDisplay type={badgeType} title={name} options={option} url={url} />
         )}
-        {badgeType==='past' &&(
+        {badgeType === "past" && (
           <p className="text-right text-xs text-muted">{lastMeetingText}일 전 마지막 모임</p>
         )}
       </div>
