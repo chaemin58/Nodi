@@ -40,6 +40,7 @@ export type Database = {
           name: string;
           owner_id: string;
           type: string;
+          invite_code: string;
           created_at: string;
         },
         {
@@ -47,6 +48,7 @@ export type Database = {
           name: string;
           owner_id: string;
           type?: string;
+          invite_code?: string;
           created_at?: string;
         },
         {
@@ -54,6 +56,7 @@ export type Database = {
           name?: string;
           owner_id?: string;
           type?: string;
+          invite_code?: string;
           created_at?: string;
         }
       >;
@@ -189,6 +192,15 @@ export type Database = {
       is_group_owner: {
         Args: { _group_id: string };
         Returns: boolean;
+      };
+      get_group_by_invite_code: {
+        Args: { _code: string };
+        Returns: {
+          id: string;
+          name: string;
+          type: string;
+          member_count: number;
+        }[];
       };
       can_view_meetup: {
         Args: { _meetup_id: string };
