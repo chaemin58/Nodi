@@ -95,3 +95,59 @@ export async function leaveGroup(supabase: DbClient, groupId: string): Promise<v
     .eq("user_id", userId);
   if (error) throw error;
 }
+
+export type GroupInvitePreview = {
+  id: string;
+  name: string;
+  type: GroupType;
+  memberCount: number;
+};
+
+/**
+ * 초대 코드로 모임 미리보기 (멤버가 아니어도 조회 가능).
+ * get_group_by_invite_code RPC(security definer)를 거치므로
+ * groups_select RLS(멤버만 조회)와 무관하게 동작함.
+ */
+export async function getGroupByInviteCode(
+  supabase: DbClient,
+  code: string,
+): Promise<GroupInvitePreview | null> {
+  const { data, error } = await supabase.rpc("get_group_by_invite_code", {
+    _code: code,
+  });
+  if (error) throw error;
+  const row = data?.[0];
+  if (!row) return null;
+  return {
+    id: row.id,
+    name: row.name,
+    type: row.type as GroupType,
+    memberCount: Number(row.member_count),
+  };
+}
+
+/** 초대 코드로 모임 참여. 코드가 유효하지 않으면 에러. */
+export async function joinGroupByInviteCode(
+  supabase: DbClient,
+  code: string,
+): Promise<string> {
+  const preview = await getGroupByInviteCode(supabase, code);
+  if (!preview) throw new Error("유효하지 않은 초대 코드입니다.");
+  await joinGroup(supabase, preview.id);
+  return preview.id;
+}
+
+/** 초대 코드 재발급 (기존 링크 무효화 — 주인만, RLS가 강제) */
+export async function regenerateInviteCode(
+  supabase: DbClient,
+  groupId: string,
+): Promise<string> {
+  const { data, error } = await supabase
+    .from("groups")
+    .update({ invite_code: crypto.randomUUID() })
+    .eq("id", groupId)
+    .select("invite_code")
+    .single();
+  if (error) throw error;
+  return data.invite_code;
+}
