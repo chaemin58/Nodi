@@ -12,9 +12,9 @@ export function ModalFooter({ children, className }: ModalFooterProps) {
 
   const { isDismissable } = ctx;
 
-  // 무시할 수 없는데 버튼을 안 넘겨주면 에러
-  if (isDismissable && !children) {
-    throw new Error("isDismissable이 true인 모달은 ModalFooter에 버튼이 필요합니다.");
+  // 무시할 수 없는데(선택 강제) 버튼을 안 넘겨주면 에러
+  if (!isDismissable && !children) {
+    throw new Error("isDismissable이 false인 모달은 ModalFooter에 버튼이 필요합니다.");
   }
 
   return <div className={className}>{children}</div>;

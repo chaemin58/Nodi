@@ -29,7 +29,7 @@ export function Modal({ children, onClose, isDismissable }: ModalProps) {
   }, []);
 
   useEffect(() => {
-    if (isDismissable) return;
+    if (!isDismissable) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -42,7 +42,7 @@ export function Modal({ children, onClose, isDismissable }: ModalProps) {
   if (!isMounted) return null;
 
   const handleOverlayClick = () => {
-    if (!isDismissable) onClose();
+    if (isDismissable) onClose();
   };
 
   return createPortal(
