@@ -44,7 +44,7 @@
   --color-badge-soon-fg: #993c1d;
   --color-badge-dday-bg: #e6f1fb; /* D-3 (블루) */
   --color-badge-dday-fg: #185fa5;
-  --color-color-badge-couple-bg: #fbeaf0; /* 커플 포인트 (핑크) */
+  --color-badge-couple-bg: #fbeaf0; /* 커플 포인트 (핑크) */
   --color-badge-couple-fg: #993556;
 
   /* 시멘틱 */
@@ -53,12 +53,14 @@
   --color-bg-surface: var(--color-gray-50);
   --color-bg-footer: var(--color-gray-100);
   --color-border-default: var(--color-gray-100);
+  --color-hairline: rgba(17, 24, 22, 0.08); /* 애플식 반투명 헤어라인 — 배경에 스며듦 */
   --color-text-primary: var(--color-gray-950);
   --color-text-secondary: var(--color-gray-700);
   --color-text-tertiary: var(--color-gray-500);
   --color-text-placeholder: var(--color-gray-400);
   --shadow-card: 0px 4px 16px 0px rgba(17, 34, 17, 0.05);
   --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-hairline: rgba(17, 24, 22, 0.08);
 
   /* 버튼 */
   --color-primary-button-active: #167d5c;
