@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Nodi입니다.</div>;
+  return <div>nodi입니다.</div>;
 }
