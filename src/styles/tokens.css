@@ -1,5 +1,5 @@
 @theme {
-  --font-sans: var(--font-pretendard), sans-serif;
+  --font-sans: "Pretendard Variable", sans-serif;
 
   --text-sm: clamp(0.8125rem, 0.719rem + 0.417vw, 0.875rem);
   --text-base: clamp(0.875rem, 0.6875rem + 0.833vw, 1rem);
