@@ -202,6 +202,26 @@ export type Database = {
           member_count: number;
         }[];
       };
+      get_my_groups_summary: {
+        Args: Record<string, never>;
+        Returns: {
+          id: string;
+          name: string;
+          type: string;
+          created_at: string;
+          member_count: number;
+          meetup_count: number;
+          members: { id: string; nickname: string; avatar_url: string | null }[];
+          current_meetup: {
+            id: string;
+            title: string;
+            status: string;
+            meet_date: string | null;
+            place_count: number;
+            confirmed_place: string | null;
+          } | null;
+        }[];
+      };
       can_view_meetup: {
         Args: { _meetup_id: string };
         Returns: boolean;

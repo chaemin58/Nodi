@@ -2,7 +2,7 @@
 // RLS: groups_select = is_group_member(id) → 조회는 자동으로 "내 모임"만 나온다.
 import type { DbClient } from "@/utils/supabase/types";
 import type { Tables } from "@/types/database";
-import type { GroupType } from "@/types";
+import type { GroupType, MeetupStatus } from "@/types";
 import { requireUserId } from "./auth";
 
 export type GroupRow = Tables<"groups">;
@@ -15,6 +15,66 @@ export async function getMyGroups(supabase: DbClient): Promise<GroupRow[]> {
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data;
+}
+
+export type GroupMemberPreview = {
+  id: string;
+  nickname: string;
+  avatarUrl: string | null;
+};
+
+/** 모임 카드에 뜨는 "최근 약속" 요약 — 뱃지/후보수/확정장소는 프론트가 이걸로 계산 */
+export type CurrentMeetupSummary = {
+  id: string;
+  title: string;
+  status: MeetupStatus;
+  meetDate: string | null;
+  placeCount: number;
+  confirmedPlace: string | null;
+};
+
+/** my-nodi 카드 한 장에 필요한 모임 집계 데이터 */
+export type GroupSummary = {
+  id: string;
+  name: string;
+  type: GroupType;
+  createdAt: string;
+  memberCount: number;
+  meetupCount: number;
+  members: GroupMemberPreview[];
+  currentMeetup: CurrentMeetupSummary | null;
+};
+
+/**
+ * 내 모임 목록 + 카드용 집계 (최신순).
+ * get_my_groups_summary RPC 한 번으로 멤버수·아바타·약속수·최근약속을 모두 가져온다.
+ */
+export async function getMyGroupsSummary(supabase: DbClient): Promise<GroupSummary[]> {
+  const { data, error } = await supabase.rpc("get_my_groups_summary");
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    name: row.name,
+    type: row.type as GroupType,
+    createdAt: row.created_at,
+    memberCount: Number(row.member_count),
+    meetupCount: Number(row.meetup_count),
+    members: (row.members ?? []).map((m) => ({
+      id: m.id,
+      nickname: m.nickname,
+      avatarUrl: m.avatar_url,
+    })),
+    currentMeetup: row.current_meetup
+      ? {
+          id: row.current_meetup.id,
+          title: row.current_meetup.title,
+          status: row.current_meetup.status as MeetupStatus,
+          meetDate: row.current_meetup.meet_date,
+          placeCount: Number(row.current_meetup.place_count),
+          confirmedPlace: row.current_meetup.confirmed_place,
+        }
+      : null,
+  }));
 }
 
 /** 모임 하나 */
