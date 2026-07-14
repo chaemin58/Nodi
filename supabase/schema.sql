@@ -164,6 +164,62 @@ returns boolean language sql security definer set search_path = public stable as
   );
 $$;
 
+-- 모임 카드용 집계 (my-nodi 페이지) — 멤버수·아바타·약속수·최근 약속을 한 번에.
+-- security definer + auth.uid() 필터로 내가 속한 모임만. 자세한 설명은 migrations/003 참고.
+create or replace function public.get_my_groups_summary()
+returns table (
+  id             uuid,
+  name           text,
+  type           text,
+  created_at     timestamptz,
+  member_count   bigint,
+  meetup_count   bigint,
+  members        jsonb,
+  current_meetup jsonb
+)
+language sql security definer set search_path = public stable as $$
+  select
+    g.id, g.name, g.type, g.created_at,
+    (select count(*) from group_members gm where gm.group_id = g.id) as member_count,
+    (select count(*) from meetups m where m.group_id = g.id)         as meetup_count,
+    (
+      select coalesce(
+        jsonb_agg(
+          jsonb_build_object('id', p.id, 'nickname', p.nickname, 'avatar_url', p.avatar_url)
+          order by gm.joined_at
+        ),
+        '[]'::jsonb
+      )
+      from group_members gm
+      join profiles p on p.id = gm.user_id
+      where gm.group_id = g.id
+    ) as members,
+    (
+      select jsonb_build_object(
+        'id',        m.id,
+        'title',     m.title,
+        'status',    m.status,
+        'meet_date', m.meet_date,
+        'place_count',
+          (select count(*) from places pl where pl.meetup_id = m.id),
+        'confirmed_place',
+          (select pl.name from places pl
+           where pl.meetup_id = m.id and pl.is_confirmed
+           order by pl.course_order asc limit 1)
+      )
+      from meetups m
+      where m.group_id = g.id
+      order by m.created_at desc
+      limit 1
+    ) as current_meetup
+  from groups g
+  where exists (
+    select 1 from group_members gm
+    where gm.group_id = g.id and gm.user_id = auth.uid()
+  )
+  order by g.created_at desc;
+$$;
+
 
 -- ---------- 4. RLS 켜기 ----------
 
