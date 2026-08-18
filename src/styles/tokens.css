@@ -1,0 +1,80 @@
+@theme {
+  --font-sans: "Pretendard Variable", sans-serif;
+
+  --text-sm: clamp(0.8125rem, 0.719rem + 0.417vw, 0.875rem);
+  --text-base: clamp(0.875rem, 0.6875rem + 0.833vw, 1rem);
+  --text-lg: clamp(1rem, 0.8125rem + 0.833vw, 1.125rem);
+  --text-xl: clamp(1.0625rem, 0.781rem + 1.25vw, 1.25rem);
+  --text-2xl: clamp(1.25rem, 0.875rem + 1.667vw, 1.5rem);
+  --text-3xl: clamp(1.5rem, 0.9375rem + 2.5vw, 1.875rem);
+  --text-4xl: clamp(1.75rem, 1rem + 3.333vw, 2.25rem);
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-gray-fafafa: #fafafa;
+  --color-gray-25: #f8f8f8;
+  --color-gray-50: #edeef2;
+  --color-gray-100: #e0e0e5;
+  --color-gray-200: #c6c8cf;
+  --color-gray-300: #b3b4bc;
+  --color-gray-400: #9fa0a7;
+  --color-gray-500: #84858c;
+  --color-gray-600: #707177;
+  --color-gray-700: #5d5d61;
+  --color-gray-800: #49494c;
+  --color-gray-900: #323236;
+  --color-gray-950: #1f1f22;
+
+  --color-primary-light: #b0ddcf;
+  --color-primary: #1d9e75;
+  --color-primary-dark: #0f6e56;
+  --color-primary-tinted: #f4f7f6;
+  --color-primary-vivid: #4cc7a0;
+
+  --color-red-500: #ff2727;
+
+  /* 예약내역 배지 */
+  --color-badge-voting-bg: #faeeda; /* 정하는 중 (앰버) */
+  --color-badge-voting-fg: #854f0b;
+  --color-badge-confirmed-bg: #e1f5ee; /* 정해짐 / 새 모임 (초록) */
+  --color-badge-confirmed-fg: #0f6e56;
+  --color-badge-past-bg: #f1efe8; /* 다녀옴 (회색) */
+  --color-badge-past-fg: #5f5e5a;
+  --color-badge-soon-bg: #faece7; /* 슬슬 만날 때 (코럴) */
+  --color-badge-soon-fg: #993c1d;
+  --color-badge-dday-bg: #e6f1fb; /* D-3 (블루) */
+  --color-badge-dday-fg: #185fa5;
+  --color-badge-couple-bg: #fbeaf0; /* 커플 포인트 (핑크) */
+  --color-badge-couple-fg: #993556;
+
+  /* 시멘틱 */
+
+  --color-bg: var(--color-gray-fafafa);
+  --color-bg-surface: var(--color-gray-50);
+  --color-bg-footer: var(--color-gray-100);
+  --color-border-default: var(--color-gray-100);
+  --color-hairline: rgba(17, 24, 22, 0.08); /* 애플식 반투명 헤어라인 — 배경에 스며듦 */
+  --color-text-primary: var(--color-gray-950);
+  --color-text-secondary: var(--color-gray-700);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-placeholder: var(--color-gray-400);
+  --shadow-card: 0px 4px 16px 0px rgba(17, 34, 17, 0.05);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-hairline: rgba(17, 24, 22, 0.08);
+
+  /* 버튼 */
+  --color-primary-button-active: #167d5c;
+  --color-primary-button-hover: #24b889;
+  --color-secondary-button: #e1f5ee;
+  --color-secondary-button-active: #b8e6d6;
+  --color-secondary-button-hover: #cceee2;
+  --color-secondary-button-text: #0f6e56;
+  --color-kakao-button: #f7e600;
+  --color-kakao-button-hover: #ebd800;
+  --color-kakao-button-active: #d4c200;
+
+  /*인풋*/
+  --color-error: var(--color-red-500);
+  --color-defualt: var(--color-gray-200);
+}
