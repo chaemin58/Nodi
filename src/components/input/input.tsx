@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import EyeOnIcon from "@/assets/eyeon.svg";
-import EyeOffIcon from "@/assets/eyeoff.svg";
+import EyeOnIcon from "@/assets/icon/eyeon.svg";
+import EyeOffIcon from "@/assets/icon/eyeoff.svg";
 import { cn } from "@/lib/utils";
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "prefix"> {
