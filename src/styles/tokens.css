@@ -52,6 +52,7 @@
 
   --color-bg: var(--color-gray-fafafa);
   --color-bg-surface: var(--color-gray-50);
+  --color-surface: var(--color-white); /* 카드 배경(흰색) — bg-surface 클래스용 */
   --color-bg-footer: var(--color-gray-100);
   --color-border-default: var(--color-gray-100);
   --color-hairline: rgba(17, 24, 22, 0.08); /* 애플식 반투명 헤어라인 — 배경에 스며듦 */

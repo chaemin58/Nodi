@@ -1,5 +1,5 @@
-import FlagIcon from "@/assets/flag.svg";
-import ConfirmCheck from "@/assets/my-nodi/confirmed.svg";
+import FlagIcon from "@/assets/icon/flag.svg";
+import ConfirmCheck from "@/assets/icon/confirmed.svg";
 
 interface StatusDisplayProps {
   type: "voting" | "confirmed";
@@ -12,7 +12,7 @@ export function StatusDisplay({ type, title, options, url }: StatusDisplayProps)
   if (type === "voting") {
     return (
       <div className="flex gap-1 items-center">
-        <FlagIcon className="m-2" />
+        <FlagIcon className="m-2 w-4" />
         <div className="font-semibold">{title} •</div>
         <div className="text-gray-400">후보 {options}곳</div>
       </div>

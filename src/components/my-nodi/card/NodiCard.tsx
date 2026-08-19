@@ -29,7 +29,7 @@ export function NodiCard({
   bgColor,
 }: NodiCardProps) {
   return (
-    <div className="min-w-81 w-fit lg:min-w-100 cursor-pointer overflow-hidden border-border rounded-2xl border bg-surface shadow-sm h-full">
+    <div className="w-full min-h-68 lg:min-h-70 cursor-pointer overflow-hidden border-border border-border-default rounded-2xl border bg-surface shadow-sm self-stretch">
       {/* 커버 + 멤버 아바타 */}
       <div
         className="relative h-28 w-full"
@@ -52,7 +52,7 @@ export function NodiCard({
         {(badgeType === "voting" || badgeType === "confirmed") && (
           <StatusDisplay type={badgeType} title={name} options={option} url={url} />
         )}
-        {badgeType === "past" && (
+        {badgeType === "past" && lastMeetingText && (
           <p className="text-right text-xs text-muted">{lastMeetingText}일 전 마지막 모임</p>
         )}
       </div>
