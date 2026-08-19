@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AddMeetingProvider } from "@/providers/AddMeetingProvider";
 
 export const metadata: Metadata = {
   title: "Nodi — 약속 장소, 같이 정하기",
@@ -25,7 +26,9 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AddMeetingProvider>{children}</AddMeetingProvider>
+      </body>
     </html>
   );
 }
