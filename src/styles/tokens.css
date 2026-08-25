@@ -52,6 +52,7 @@
 
   --color-bg: var(--color-gray-fafafa);
   --color-bg-surface: var(--color-gray-50);
+  --color-surface: var(--color-white); /* 카드 배경(흰색) — bg-surface 클래스용 */
   --color-bg-footer: var(--color-gray-100);
   --color-border-default: var(--color-gray-100);
   --color-hairline: rgba(17, 24, 22, 0.08); /* 애플식 반투명 헤어라인 — 배경에 스며듦 */
@@ -77,4 +78,30 @@
   /*인풋*/
   --color-error: var(--color-red-500);
   --color-defualt: var(--color-gray-200);
+}
+
+/* 모임 카드 커버 색.
+   @theme 이 아니라 :root 에 두는 이유 — Tailwind v4 는 @theme 변수 중
+   "클래스로 쓰인 것"만 CSS 로 내보낸다. 이 색들은 인라인 style 에서
+   var(--color-cover-*) 로 직접 읽으므로 Tailwind 가 사용을 감지하지 못해
+   @theme 에 두면 통째로 빠진다.
+
+   아바타가 커버 위에 겹치므로 연하고 명도가 고른 파스텔로 통일했다.
+   gray 는 팔레트에 없음 = "색이 지정되지 않음" 전용. */
+:root {
+  --color-cover-gray: #edeef2;
+  --color-cover-coral: #faece7;
+  --color-cover-peach: #fbe8d9;
+  --color-cover-amber: #faeeda;
+  --color-cover-lemon: #f7f2d4;
+  --color-cover-olive: #eaf0dc;
+  --color-cover-mint: #e1f5ee;
+  --color-cover-teal: #dcf0f0;
+  --color-cover-sky: #e6f1fb;
+  --color-cover-blue: #e3e8f8;
+  --color-cover-indigo: #e8e6f6;
+  --color-cover-lilac: #efe7f8;
+  --color-cover-plum: #f5e8f4;
+  --color-cover-pink: #fbeaf0;
+  --color-cover-rose: #fae3e3;
 }

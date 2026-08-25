@@ -41,6 +41,7 @@ export type Database = {
           owner_id: string;
           type: string;
           invite_code: string;
+          color: string;
           created_at: string;
         },
         {
@@ -49,6 +50,7 @@ export type Database = {
           owner_id: string;
           type?: string;
           invite_code?: string;
+          color?: string;
           created_at?: string;
         },
         {
@@ -57,6 +59,7 @@ export type Database = {
           owner_id?: string;
           type?: string;
           invite_code?: string;
+          color?: string;
           created_at?: string;
         }
       >;
@@ -199,6 +202,7 @@ export type Database = {
           id: string;
           name: string;
           type: string;
+          color: string;
           member_count: number;
         }[];
       };
@@ -209,6 +213,7 @@ export type Database = {
           name: string;
           type: string;
           created_at: string;
+          color: string;
           member_count: number;
           meetup_count: number;
           members: { id: string; nickname: string; avatar_url: string | null }[];

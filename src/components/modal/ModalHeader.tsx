@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import DeleteIcon from "@/assets/icon_delete.svg";
+import DeleteIcon from "@/assets/icon/icon_delete.svg";
+import { cn } from "@/lib/utils";
 import { ModalContext } from "./Modal";
 
 interface ModalHeaderProps {
@@ -17,10 +18,10 @@ export function ModalHeader({ children, className = "" }: ModalHeaderProps) {
   if (!isDismissable) return null;
 
   return (
-    <div className={`flex items-center justify-between p-4 border-b ${className}`}>
+    <div className={cn("flex items-center justify-between p-4", className)}>
       {children}
       <button type="button" onClick={onClose}>
-        <DeleteIcon width={20} height={20} />
+        <DeleteIcon width={20} height={20} className="cursor-pointer" />
       </button>
     </div>
   );

@@ -3,7 +3,7 @@ import { Badge } from "@/components/Badge/Badge";
 
 interface GroupInfoProps {
   title: string;
-  badgeType: BadgeKind;
+  badgeType?: BadgeKind;
   meetingCount: number;
   headCount: number;
 }
