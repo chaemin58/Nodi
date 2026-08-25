@@ -42,6 +42,7 @@ export type Database = {
           type: string;
           invite_code: string;
           color: string;
+          status_message: string | null;
           created_at: string;
         },
         {
@@ -51,6 +52,7 @@ export type Database = {
           type?: string;
           invite_code?: string;
           color?: string;
+          status_message?: string | null;
           created_at?: string;
         },
         {
@@ -60,6 +62,7 @@ export type Database = {
           type?: string;
           invite_code?: string;
           color?: string;
+          status_message?: string | null;
           created_at?: string;
         }
       >;

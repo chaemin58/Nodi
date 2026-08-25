@@ -22,6 +22,7 @@ create table groups (
   type        text not null default 'friends',  -- 'friends'(v1) | 'couple'(v2) | 'family'
   invite_code text unique not null default gen_random_uuid()::text,  -- 초대 링크용 코드
   color       text not null default 'gray',  -- 카드 커버 색 (팔레트 토큰 이름, gray=미지정)
+  status_message text check (char_length(status_message) <= 100),  -- 멤버 누구나 고치는 한 줄 (null=아직 없음)
   created_at  timestamptz default now()
 );
 

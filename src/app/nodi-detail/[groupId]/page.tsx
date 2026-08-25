@@ -46,6 +46,8 @@ export default async function NodiDetailPage({ params }: { params: Promise<{ gro
     <div className="mx-auto flex max-w-4xl flex-col gap-6 p-6 lg:gap-10">
       <NodiDetailHeader
         nodiTitle={group.name}
+        // DB는 "없음"을 null로, prop은 undefined로 표현한다
+        statusMessage={group.status_message ?? undefined}
         members={members}
         headCount={members.length}
         startDate={new Date(group.created_at)}
