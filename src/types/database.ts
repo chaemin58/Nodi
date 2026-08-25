@@ -4,11 +4,11 @@
 // 각 테이블은 supabase-js 가 요구하는 { Row, Insert, Update, Relationships } 형태.
 // (Relationships 가 없으면 타입이 never 로 떨어져 insert/update 가 안 됨)
 
-type Table<Row, Insert, Update> = {
+type Table<Row, Insert, Update, Rel extends readonly unknown[] = []> = {
   Row: Row;
   Insert: Insert;
   Update: Update;
-  Relationships: [];
+  Relationships: Rel;
 };
 
 export type Database = {
@@ -84,7 +84,23 @@ export type Database = {
           user_id?: string;
           role?: string;
           joined_at?: string;
-        }
+        },
+        [
+          {
+            foreignKeyName: "group_members_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "group_members_group_id_fkey";
+            columns: ["group_id"];
+            isOneToOne: false;
+            referencedRelation: "groups";
+            referencedColumns: ["id"];
+          },
+        ]
       >;
       meetups: Table<
         {
