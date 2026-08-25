@@ -3,8 +3,6 @@ import { MeetingAddCard } from "@/components/my-nodi/card/MeetingAddCard";
 import type { AvatarGroupMember } from "@/components/avatar";
 import type { GroupSummary } from "@/api";
 
-// page.tsx(서버 컴포넌트)에서 이미 가져온 "내 모임" 데이터를 props로 받는다.
-// 이 컴포넌트는 데이터를 그리기만 함(프레젠테이셔널).
 export default function NodiCardContainer({ groups }: { groups: GroupSummary[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 max-w-4xl">
@@ -20,6 +18,7 @@ export default function NodiCardContainer({ groups }: { groups: GroupSummary[] }
 
         return (
           <NodiCard
+            id={group.id}
             key={group.id}
             title={group.name}
             color={group.color}
