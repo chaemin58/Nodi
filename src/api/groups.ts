@@ -38,6 +38,7 @@ export type GroupSummary = {
   id: string;
   name: string;
   type: GroupType;
+  color: string;
   createdAt: string;
   memberCount: number;
   meetupCount: number;
@@ -56,6 +57,7 @@ export async function getMyGroupsSummary(supabase: DbClient): Promise<GroupSumma
     id: row.id,
     name: row.name,
     type: row.type as GroupType,
+    color: row.color,
     createdAt: row.created_at,
     memberCount: Number(row.member_count),
     meetupCount: Number(row.meetup_count),
@@ -139,6 +141,7 @@ export type GroupInvitePreview = {
   id: string;
   name: string;
   type: GroupType;
+  color: string;
   memberCount: number;
 };
 
@@ -161,6 +164,7 @@ export async function getGroupByInviteCode(
     id: row.id,
     name: row.name,
     type: row.type as GroupType,
+    color: row.color,
     memberCount: Number(row.member_count),
   };
 }

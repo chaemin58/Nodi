@@ -22,6 +22,7 @@ export default function NodiCardContainer({ groups }: { groups: GroupSummary[] }
           <NodiCard
             key={group.id}
             title={group.name}
+            color={group.color}
             badgeType={badgeType}
             headCount={group.memberCount}
             meetingCount={group.meetupCount}

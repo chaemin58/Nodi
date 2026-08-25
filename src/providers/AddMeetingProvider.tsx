@@ -4,6 +4,12 @@ import { type GroupRow } from "@/api";
 import { Button } from "@/components/Button/Button";
 import Input from "@/components/input";
 import { Modal } from "@/components/modal";
+import {
+  GROUP_COLORS,
+  coverColorVar,
+  randomGroupColor,
+  type GroupColor,
+} from "@/tokens/groupColors";
 import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useState } from "react";
 
@@ -21,8 +27,13 @@ export function AddMeetingProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState<"form" | "done">("form");
   const [meetingTitle, setMeetingTitle] = useState("");
   const [createdGroup, setCreatedGroup] = useState<GroupRow | null>(null);
+  // 열 때 랜덤으로 하나 정해둔다 — 색을 고르지 않아도 모임마다 달라진다.
+  const [color, setColor] = useState<GroupColor>(randomGroupColor);
 
-  const open = () => setIsOpen(true);
+  const open = () => {
+    setColor(randomGroupColor());
+    setIsOpen(true);
+  };
 
   // 닫을 때 다음 열림을 위해 상태 초기화
   const close = () => {
@@ -42,7 +53,7 @@ export function AddMeetingProvider({ children }: { children: ReactNode }) {
       const res = await fetch("/api/groups", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: meetingTitle }),
+        body: JSON.stringify({ name: meetingTitle, color }),
       });
 
       const json = await res.json();
@@ -84,6 +95,26 @@ export function AddMeetingProvider({ children }: { children: ReactNode }) {
                 value={meetingTitle}
                 onChange={(e) => setMeetingTitle(e.target.value)}
               />
+              <div className="flex flex-col gap-2 px-4 pt-3">
+                <p className="text-sm text-text-secondary">카드 색</p>
+                <div className="flex flex-wrap gap-2">
+                  {GROUP_COLORS.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      aria-label={c}
+                      aria-pressed={c === color}
+                      onClick={() => setColor(c)}
+                      style={{ backgroundColor: coverColorVar(c) }}
+                      className={`size-7 cursor-pointer rounded-full transition ${
+                        c === color
+                          ? "ring-2 ring-primary ring-offset-2"
+                          : "ring-1 ring-gray-100"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
               {isError && <p className="px-4 text-sm text-error">모임 생성에 실패했어요.</p>}
               <Modal.Footer className="flex gap-2 p-4">
                 <Button variant="secondary" onClick={close}>

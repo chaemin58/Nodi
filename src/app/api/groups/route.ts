@@ -10,9 +10,10 @@
 import type { NextRequest } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { getSupabaseEnv } from "@/utils/supabase/env";
+import { GROUP_COLORS, randomGroupColor } from "@/tokens/groupColors";
 
 export async function POST(request: NextRequest) {
-  const { name } = await request.json();
+  const { name, color } = await request.json();
 
   if (!name || !name.trim()) {
     return Response.json({ error: "모임 이름이 필요합니다." }, { status: 400 });
@@ -27,6 +28,12 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "로그인이 필요합니다." }, { status: 401 });
   }
 
+  // 팔레트에 없는 값이 오면(오타·오래된 클라이언트) 무작위 색으로 대체한다.
+  // 여기서 걸러야 DB에 이상한 색 이름이 쌓이지 않는다.
+  const safeColor = (GROUP_COLORS as readonly string[]).includes(color)
+    ? (color as string)
+    : randomGroupColor();
+
   const { url, anonKey } = getSupabaseEnv();
 
   try {
@@ -38,7 +45,7 @@ export async function POST(request: NextRequest) {
         Authorization: `Bearer ${session.access_token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ _name: name.trim() }),
+      body: JSON.stringify({ _name: name.trim(), _color: safeColor }),
     });
 
     if (!res.ok) {

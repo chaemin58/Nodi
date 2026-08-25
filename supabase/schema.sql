@@ -21,6 +21,7 @@ create table groups (
   owner_id    uuid not null references profiles(id) on delete cascade,
   type        text not null default 'friends',  -- 'friends'(v1) | 'couple'(v2) | 'family'
   invite_code text unique not null default gen_random_uuid()::text,  -- 초대 링크용 코드
+  color       text not null default 'gray',  -- 카드 커버 색 (팔레트 토큰 이름, gray=미지정)
   created_at  timestamptz default now()
 );
 
@@ -124,9 +125,9 @@ $$;
 -- 초대 코드로 모임 미리보기 (멤버가 아니어도 호출 가능 — groups_select RLS는 안 거침.
 -- security definer라 코드가 정확히 일치하는 한 행만 돌려주므로 전체 목록 유출 위험 없음)
 create or replace function public.get_group_by_invite_code(_code text)
-returns table (id uuid, name text, type text, member_count bigint)
+returns table (id uuid, name text, type text, color text, member_count bigint)
 language sql security definer set search_path = public stable as $$
-  select g.id, g.name, g.type,
+  select g.id, g.name, g.type, g.color,
     (select count(*) from group_members gm where gm.group_id = g.id) as member_count
   from groups g
   where g.invite_code = _code;
@@ -171,6 +172,7 @@ returns table (
   id             uuid,
   name           text,
   type           text,
+  color          text,
   created_at     timestamptz,
   member_count   bigint,
   meetup_count   bigint,
@@ -179,7 +181,7 @@ returns table (
 )
 language sql security definer set search_path = public stable as $$
   select
-    g.id, g.name, g.type, g.created_at,
+    g.id, g.name, g.type, g.color, g.created_at,
     (select count(*) from group_members gm where gm.group_id = g.id) as member_count,
     (select count(*) from meetups m where m.group_id = g.id)         as meetup_count,
     (
