@@ -4,7 +4,8 @@ import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer transition-colors disabled:pointer-events-none font-medium w-full",
+  // whitespace-nowrap: 좁은 곳(모달 등)에서 버튼 글자가 줄바꿈되지 않게 한다.
+  "inline-flex items-center cursor-pointer transition-colors disabled:pointer-events-none font-medium w-full whitespace-nowrap",
   {
     variants: {
       variant: {

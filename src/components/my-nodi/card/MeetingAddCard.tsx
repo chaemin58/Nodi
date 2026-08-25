@@ -9,7 +9,7 @@ export function MeetingAddCard() {
   return (
     <div
       onClick={() => modal?.open()}
-      className="w-full cursor-pointer overflow-hidden border-border rounded-2xl bg-surface border-2 border-dashed p-5 flex flex-col justify-center items-center gap-3 self-stretch"
+      className="w-full min-h-68 lg:min-h-70 cursor-pointer overflow-hidden border-border rounded-2xl bg-surface border-2 border-dashed p-5 flex flex-col justify-center items-center gap-3 self-stretch"
     >
       <SquarePlus className="w-10 text-gray-400" />
       <div className="flex items-center justify-center font-semibold text-gray-400">

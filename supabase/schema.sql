@@ -238,7 +238,7 @@ create policy "profiles_select" on profiles for select using (true);
 create policy "profiles_update" on profiles for update using (id = auth.uid());
 
 -- groups: 멤버만 조회 / 생성은 본인이 owner / 수정·삭제는 주인만
-create policy "groups_select" on groups for select using (is_group_member(id));
+create policy "groups_select" on groups for select using (is_group_member(id) or owner_id = auth.uid());
 create policy "groups_insert" on groups for insert with check (owner_id = auth.uid());
 create policy "groups_update" on groups for update using (owner_id = auth.uid());
 create policy "groups_delete" on groups for delete using (owner_id = auth.uid());

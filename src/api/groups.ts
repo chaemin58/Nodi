@@ -84,30 +84,9 @@ export async function getGroup(supabase: DbClient, groupId: string): Promise<Gro
   return data;
 }
 
-/**
- * 모임 생성 + 생성자를 owner 멤버로 등록.
- * groups_insert(owner_id=auth.uid) → group_members(owner) 두 단계.
- */
-export async function createGroup(
-  supabase: DbClient,
-  input: { name: string; type?: GroupType },
-): Promise<GroupRow> {
-  const userId = await requireUserId(supabase);
-
-  const { data: group, error } = await supabase
-    .from("groups")
-    .insert({ name: input.name, type: input.type ?? "friends", owner_id: userId })
-    .select("*")
-    .single();
-  if (error) throw error;
-
-  const { error: memberError } = await supabase
-    .from("group_members")
-    .insert({ group_id: group.id, user_id: userId, role: "owner" });
-  if (memberError) throw memberError;
-
-  return group;
-}
+// 모임 생성은 여기 없다.
+// DB 함수 create_group_with_owner(모임 생성 + owner 멤버 등록을 원자적으로 처리)를
+// POST /api/groups 라우트에서 호출한다. 앱에서 두 번 insert 하면 RLS에 막힌다.
 
 /** 모임 이름 변경 (주인만 — RLS가 강제) */
 export async function renameGroup(
