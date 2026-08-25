@@ -5,7 +5,7 @@ import { StatusDisplay } from "./StatusDisplay";
 
 interface NodiCardProps {
   title: string;
-  badgeType: BadgeKind;
+  badgeType?: BadgeKind;
   headCount: number;
   meetingCount: number;
   members: AvatarGroupMember[];

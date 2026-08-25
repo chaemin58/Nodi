@@ -1,7 +1,6 @@
 import { NodiCard } from "@/components/my-nodi/card/NodiCard";
 import { MeetingAddCard } from "@/components/my-nodi/card/MeetingAddCard";
 import type { AvatarGroupMember } from "@/components/avatar";
-import type { BadgeKind } from "@/tokens/badges";
 import type { GroupSummary } from "@/api";
 
 // page.tsx(서버 컴포넌트)에서 이미 가져온 "내 모임" 데이터를 props로 받는다.
@@ -16,8 +15,8 @@ export default function NodiCardContainer({ groups }: { groups: GroupSummary[] }
           src: m.avatarUrl,
         }));
 
-        // 진행 중인 약속이 있으면 그 상태(정하는 중/정해짐), 없으면 "다녀옴"
-        const badgeType: BadgeKind = group.currentMeetup?.status ?? "past";
+        // 진행 중인 약속이 있으면 그 상태(정하는 중/정해짐) 없다면 없는 상태로
+        const badgeType = group.currentMeetup?.status || undefined;
 
         return (
           <NodiCard
