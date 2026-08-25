@@ -239,36 +239,36 @@ alter table votes         enable row level security;
 create policy "profiles_select" on profiles for select using (true);
 create policy "profiles_update" on profiles for update using (id = auth.uid());
 
--- groups: 멤버만 조회 / 생성은 본인이 owner / 수정·삭제는 주인만
-create policy "groups_select" on groups for select using (is_group_member(id) or owner_id = auth.uid());
+-- groups: 멤버만 조회 / 생성은 본인이 만든 사람 / 수정은 멤버 누구나 / 삭제 없음
+create policy "groups_select" on groups for select using (is_group_member(id));
 create policy "groups_insert" on groups for insert with check (owner_id = auth.uid());
-create policy "groups_update" on groups for update using (owner_id = auth.uid());
-create policy "groups_delete" on groups for delete using (owner_id = auth.uid());
+create policy "groups_update" on groups for update using (is_group_member(id));
+-- 모임 삭제 정책 없음 — 방장 개념이 없으므로 삭제 대신 나가기만 한다(008).
 
--- group_members: 같은 모임 멤버 조회 / 내가 참여 or 주인이 초대 / 나가기·주인 강퇴
+-- group_members: 같은 모임 멤버 조회 / 본인이 참여 / 본인이 나가기 (강퇴 없음)
 create policy "gmembers_select" on group_members for select using (is_group_member(group_id));
 create policy "gmembers_insert" on group_members for insert
-  with check (user_id = auth.uid() or is_group_owner(group_id));
+  with check (user_id = auth.uid());
 create policy "gmembers_delete" on group_members for delete
-  using (user_id = auth.uid() or is_group_owner(group_id));
+  using (user_id = auth.uid());
 
--- meetups: 볼 수 있는 약속만 조회 / 모임 멤버가 생성(본인) / 만든 본인 or 모임주인만 수정·삭제
+-- meetups: 볼 수 있는 약속만 조회 / 모임 멤버가 생성(본인) / 멤버 누구나 수정 / 만든 본인만 삭제
 create policy "meetups_select" on meetups for select using (can_view_meetup(id));
 create policy "meetups_insert" on meetups for insert
   with check (is_group_member(group_id) and created_by = auth.uid());
 create policy "meetups_update" on meetups for update
-  using (created_by = auth.uid() or is_group_owner(group_id));
+  using (is_group_member(group_id));
 create policy "meetups_delete" on meetups for delete
-  using (created_by = auth.uid() or is_group_owner(group_id));
+  using (created_by = auth.uid());
 
--- places: 볼 수 있는 약속이면 조회 / 모임 멤버만 추가(본인 이름으로) / 추가한 본인 or 모임주인만 수정·삭제
+-- places: 볼 수 있는 약속이면 조회 / 모임 멤버만 추가(본인 이름으로) / 멤버 누구나 수정 / 추가한 본인만 삭제
 -- 참고: 코스 확정(is_confirmed·course_order 수정)도 이 update 정책을 따름.
 --       "확정은 주최자만" 을 DB 레벨로 엄격히 막으려면 별도 meetup_course 테이블로 분리(추후).
 create policy "places_select" on places for select using (can_view_meetup(meetup_id));
 create policy "places_insert" on places for insert
   with check (is_meetup_member(meetup_id) and added_by = auth.uid());
 create policy "places_update" on places for update
-  using (added_by = auth.uid() or is_meetup_group_owner(meetup_id));
+  using (added_by = auth.uid());
 create policy "places_delete" on places for delete
   using (added_by = auth.uid() or is_meetup_group_owner(meetup_id));
 
