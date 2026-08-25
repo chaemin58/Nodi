@@ -1,4 +1,4 @@
-import Edit from "@/assets/icon_edit.svg";
+import Edit from "@/assets/icon/icon_edit.svg";
 import { AvatarGroup, AvatarGroupMember } from "../avatar";
 import { NodiDiscription } from "./NodiDescription";
 
