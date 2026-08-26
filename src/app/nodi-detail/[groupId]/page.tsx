@@ -51,6 +51,7 @@ export default async function NodiDetailPage({ params }: { params: Promise<{ gro
         members={members}
         headCount={members.length}
         startDate={new Date(group.created_at)}
+        groupId={groupId}
       />
 
       <NodiHistoryBoard

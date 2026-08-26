@@ -170,10 +170,7 @@ export async function getGroupByInviteCode(
 }
 
 /** 초대 코드로 모임 참여. 코드가 유효하지 않으면 에러. */
-export async function joinGroupByInviteCode(
-  supabase: DbClient,
-  code: string,
-): Promise<string> {
+export async function joinGroupByInviteCode(supabase: DbClient, code: string): Promise<string> {
   const preview = await getGroupByInviteCode(supabase, code);
   if (!preview) throw new Error("유효하지 않은 초대 코드입니다.");
   await joinGroup(supabase, preview.id);
@@ -181,10 +178,7 @@ export async function joinGroupByInviteCode(
 }
 
 /** 초대 코드 재발급 (기존 링크 무효화 — 주인만, RLS가 강제) */
-export async function regenerateInviteCode(
-  supabase: DbClient,
-  groupId: string,
-): Promise<string> {
+export async function regenerateInviteCode(supabase: DbClient, groupId: string): Promise<string> {
   const { data, error } = await supabase
     .from("groups")
     .update({ invite_code: crypto.randomUUID() })
@@ -193,4 +187,17 @@ export async function regenerateInviteCode(
     .single();
   if (error) throw error;
   return data.invite_code;
+}
+
+/*상태메세지 수정 */
+export async function updateStatusMessage(
+  supabase: DbClient,
+  groupId: string,
+  statusMessage: string,
+): Promise<void> {
+  const { error } = await supabase
+    .from("groups")
+    .update({ status_message: statusMessage })
+    .eq("id", groupId);
+  if (error) throw error;
 }
