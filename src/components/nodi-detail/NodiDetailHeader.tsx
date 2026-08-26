@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Edit from "@/assets/icon/icon_edit.svg";
 import { AvatarGroup, AvatarGroupMember } from "../avatar";
 import { NodiDiscription } from "./NodiDescription";
@@ -28,6 +29,7 @@ export function NodiDetailHeader({
   const [value, setValue] = useState(statusMessage ?? "");
   const inputRef = useRef<HTMLInputElement>(null);
   const savedRef = useRef(statusMessage ?? "");
+  const router = useRouter();
 
   const handleEditStatusMessage = () => {
     setIsEditing(true);
@@ -54,6 +56,10 @@ export function NodiDetailHeader({
     //실제 저장
     const supabase = createClient();
     await updateStatusMessage(supabase, groupId, next);
+    //savedRef도 갱신
+    savedRef.current = next;
+    // 페이지가 서버 컴포넌트라, 갱신하지 않으면 다른 화면이 옛 값을 계속 보여준다.
+    router.refresh();
   };
 
   return (
