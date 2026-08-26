@@ -42,6 +42,7 @@ export function NodiDetailHeader({
     }
     if (e.key === "Escape") {
       e.preventDefault();
+      setValue(savedRef.current);
       inputRef.current?.blur();
     }
   };
