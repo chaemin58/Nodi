@@ -5,7 +5,8 @@ import type { AvatarGroupMember } from "@/components/avatar";
 import type { BadgeKind } from "@/tokens/badges";
 import { NodiDetailHeader } from "@/components/nodi-detail/NodiDetailHeader";
 import { NodiHistoryBoard } from "@/components/nodi-detail/NodiHistoryBoard";
-import { CurrentNodi } from "@/components/nodi-detail/CurrentNodi";
+import { CurrentNodiContainer } from "@/components/nodi-detail/CurrentNodiContainer";
+import { isPast } from "@/utils/date";
 
 export default async function NodiDetailPage({ params }: { params: Promise<{ groupId: string }> }) {
   const { groupId } = await params;
@@ -32,8 +33,17 @@ export default async function NodiDetailPage({ params }: { params: Promise<{ gro
     src: m.profiles?.avatar_url ?? null,
   }));
 
-  // getMeetupsByGroup은 최신순이므로 첫 번째가 진행 중인 약속.
-  const currentMeetup = meetups[0];
+  // const now = new Date();
+  console.log(meetups);
+  //onsole.log(now) Tue Sep 08 2026 13:26:31 GMT+0900 (한국 표준시)
+
+  const onProgressMeetupList = meetups.filter(
+    (meetup) =>
+      meetup.status === "voting" || (meetup.status === "confirmed" && !isPast(meetup.meet_date)),
+  );
+
+  // TODO : 진행 중인 약속은 status가 voting이면
+  // const currentMeetup = meetups[0];
 
   // "마지막 만남" — 날짜가 잡힌 약속 중 가장 최근. 없으면 null.
   const lastMeetDate = meetups
@@ -61,11 +71,7 @@ export default async function NodiDetailPage({ params }: { params: Promise<{ gro
         // TODO: 다녀온 장소 수 — places 집계가 없어 아직 0으로 둔다.
         visitedPlaceCounter={0}
       />
-
-      <CurrentNodi
-        meetupTitle={currentMeetup?.title}
-        badgeType={currentMeetup?.status as BadgeKind | undefined}
-      />
+      <CurrentNodiContainer currentNodiList={onProgressMeetupList} />
     </div>
   );
 }
