@@ -13,9 +13,7 @@ export function PastNodiContainer({ pastNodiList }: PastNodiContainerProps) {
         <Logo className="w-5.5 " />
         <div className="font-semibold lg:text-lg">지난 약속</div>
       </div>
-      <div className="border rounded-xl border-border-default shadow-card">
-        <PastNodi pastNodiList={pastNodiList} />
-      </div>
+      <PastNodi pastNodiList={pastNodiList} />
     </div>
   );
 }
