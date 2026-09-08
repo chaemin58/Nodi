@@ -7,6 +7,7 @@ import { NodiDetailHeader } from "@/components/nodi-detail/NodiDetailHeader";
 import { NodiHistoryBoard } from "@/components/nodi-detail/NodiHistoryBoard";
 import { CurrentNodiContainer } from "@/components/nodi-detail/CurrentNodiContainer";
 import { isPast } from "@/utils/date";
+import { PastNodiContainer } from "@/components/nodi-detail/PastNodiContainer";
 
 export default async function NodiDetailPage({ params }: { params: Promise<{ groupId: string }> }) {
   const { groupId } = await params;
@@ -42,8 +43,9 @@ export default async function NodiDetailPage({ params }: { params: Promise<{ gro
       meetup.status === "voting" || (meetup.status === "confirmed" && !isPast(meetup.meet_date)),
   );
 
-  // TODO : 진행 중인 약속은 status가 voting이면
-  // const currentMeetup = meetups[0];
+  const pastMeetupList = meetups.filter(
+    (meetup) => meetup.status === "confirmed" && isPast(meetup.meet_date),
+  );
 
   // "마지막 만남" — 날짜가 잡힌 약속 중 가장 최근. 없으면 null.
   const lastMeetDate = meetups
@@ -72,6 +74,7 @@ export default async function NodiDetailPage({ params }: { params: Promise<{ gro
         visitedPlaceCounter={0}
       />
       <CurrentNodiContainer currentNodiList={onProgressMeetupList} />
+      <PastNodiContainer pastNodiList={pastMeetupList} />
     </div>
   );
 }
